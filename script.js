@@ -272,25 +272,25 @@ let timeOffset = 0;
 async function syncTimeWithServer() {
   try {
     const start = performance.now();
-    // Fetch time from NICT JST NTP server (cache-busting query added)
-    const response = await fetch('https://ntp-a1.nict.go.jp/cgi-bin/json?' + Date.now());
+    // Fetch time from WorldTimeAPI (Asia/Tokyo) as it has robust CORS support for browsers
+    const response = await fetch('https://worldtimeapi.org/api/timezone/Asia/Tokyo', { cache: 'no-store' });
     if (!response.ok) throw new Error('Network response was not ok');
     const data = await response.json();
     const end = performance.now();
     
     // Calculate network latency (one-way estimate)
     const latency = (end - start) / 2;
-    // data.st is server time in seconds
-    const serverTime = data.st * 1000;
+    // WorldTimeAPI provides datetime as an ISO string
+    const serverTime = new Date(data.datetime).getTime();
     
     // timeOffset is added to local Date.now() to get accurate JST
     timeOffset = (serverTime + latency) - Date.now();
-    console.log(`Synced with NICT JST server. Offset: ${timeOffset.toFixed(2)}ms`);
+    console.log(`Synced with WorldTimeAPI (JST). Offset: ${timeOffset.toFixed(2)}ms`);
     
     const dbg = document.getElementById('debug-info');
     if (dbg) dbg.innerText += ` | JST Sync: OK (${timeOffset > 0 ? '+' : ''}${Math.round(timeOffset)}ms)`;
   } catch (err) {
-    console.warn('Failed to sync time with NICT server, falling back to local time.', err);
+    console.warn('Failed to sync time with server, falling back to local time.', err);
     const dbg = document.getElementById('debug-info');
     if (dbg) dbg.innerText += ` | JST Sync: Failed (using local)`;
   }
