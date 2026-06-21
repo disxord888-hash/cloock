@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>21-Segment Digital Display</title>
+  <meta name="description" content="A beautiful neon 21-segment alphanumeric digital display.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Gradient Definition -->
+  <svg width="0" height="0" style="position: absolute;">
+    <defs>
+      <linearGradient id="seg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" id="grad-start" stop-color="#00f3ff" />
+        <stop offset="100%" id="grad-end" stop-color="#00f3ff" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <main class="container">
+    <header>
+      <h1>21-SEGMENT DISPLAY</h1>
+      <p id="debug-info">Type below to see the neon digital conversion</p>
+    </header>
+
+    <section class="display-panel">
+      <div class="glass-board">
+        <div id="display-container" class="display-container">
+          <!-- Digits will be dynamically injected here -->
+        </div>
+      </div>
+    </section>
+
+    <section class="input-panel">
+      <textarea id="text-input" placeholder="ENTER TEXT..." maxlength="128" autocomplete="off" spellcheck="false" rows="2"></textarea>
+      <textarea id="format-input" placeholder="FORMAT: YYYY-MM-DD 24h:mm:ss.sss" maxlength="64" autocomplete="off" spellcheck="false" rows="2" style="display: none;"></textarea>
+    </section>
+
+    <!-- Controls -->
+    <section class="controls-panel">
+      <button id="clock-toggle" class="mode-btn">TOGGLE CLOCK</button>
+      <div class="control-group">
+        <label for="size-slider">SIZE:</label>
+        <input type="range" id="size-slider" min="0.3" max="3.0" step="0.1" value="1.0">
+      </div>
+      <div class="color-picker">
+        <label for="color1">Color 1:</label>
+        <input type="color" id="color1" value="#00f3ff">
+      </div>
+      <div class="color-picker">
+        <label for="color2">Color 2:</label>
+        <input type="color" id="color2" value="#00f3ff">
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
